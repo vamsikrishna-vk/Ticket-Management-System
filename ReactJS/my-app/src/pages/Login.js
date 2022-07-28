@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import "./Login.css";
 import emailImg from "./img/email.jpg";
@@ -42,17 +41,5 @@ function Login() {
   )
 }
 
-export default Login
-=======
-import React from "react";
-
-function Login() {
-    return (
-        <div>
-            <h1>This is login page</h1>
-        </div>
-    );
-}
-
 export default Login;
->>>>>>> 9e086be28f71ddd0f95169984ccdb36b55b3ae3f
+
