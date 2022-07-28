@@ -5,9 +5,7 @@ import java.time.LocalDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-enum Status{
-	OPEN,RESOLVED,WITHDRAWN
-}
+
 
 @Document("Tickets")
 public class Ticket {
@@ -16,7 +14,7 @@ public class Ticket {
 	private String ticketId;
 	
 	private String userId;
-	Status status;
+	StatusEnum status;
 	LocalDate openTimeStamp;
 	LocalDate resolvedTimeStamp;
 	LocalDate withdrawnTimeStamp;
@@ -25,10 +23,10 @@ public class Ticket {
 	String ticketResponse;
 	
 	
-	public Status getStatus() {
+	public StatusEnum getStatus() {
 		return status;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(StatusEnum status) {
 		this.status = status;
 	}
 	public String getTicketId() {
@@ -64,7 +62,6 @@ public class Ticket {
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -81,7 +78,7 @@ public class Ticket {
 		this.ticketResponse = ticketResponse;
 	}
 	
-	public Ticket(String ticketId, String userId, Status status, LocalDate openTimeStamp, LocalDate resolvedTimeStamp,
+	public Ticket(String ticketId, String userId, StatusEnum status, LocalDate openTimeStamp, LocalDate resolvedTimeStamp,
 			LocalDate withdrawnTimeStamp, String title, String ticketContent, String ticketResponse) {
 		super();
 		this.ticketId = ticketId;
@@ -94,5 +91,6 @@ public class Ticket {
 		this.ticketContent = ticketContent;
 		this.ticketResponse = ticketResponse;
 	}
+	
 	
 }
