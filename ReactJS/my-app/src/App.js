@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Conversation from './pages/Conversation';
+import ButtonAppBar from "./components/Appbar";
 
 
 function App() {
@@ -27,7 +28,7 @@ function Layout() {
   return (
     <div>
       <div>
-        <h1>Ticket Management System</h1>
+        <ButtonAppBar />
       </div>
       <Outlet />
     </div>
