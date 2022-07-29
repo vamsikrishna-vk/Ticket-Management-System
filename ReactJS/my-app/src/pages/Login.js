@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
+import { Button, TextField, Typography } from "@mui/material";
 import "./Login.css";
-import emailImg from "./img/email.jpg";
-import pass from "./img/password.png";
-import profile from "./img/profile.png";
 
 function Login() {
 
@@ -10,33 +8,32 @@ function Login() {
     const [password,setPassword] = useState("");
 
   return (
-    <div className="main">
-        <div className="sub-main">
-            <form type="submit">
-                <div className="imgs">
-                    <div className="container-image">
-                        <img src={profile} alt="profile" className="profile"/>
-                    </div>
-                </div>
-                <div>
-                    <h1>Login Page</h1>
-                    <div>
-                        <img src={emailImg} alt="email" className="email"/>
-                        <input type="text" placeholder="username" className="name"/>
-                    </div>
-                    <div className="second-input">
-                        <img src={pass} alt="pass" className="email"/>
-                        <input type="password" placeholder="password" className="name"/>
-                    </div>
-                    <div className="login-button">
-                        <button>Login</button>
-                    </div>
-                    <div className="login-button">
-                        <button>Sign Up</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+    <div className="login">
+        <form>
+            <div class="submain">
+                <Typography variant='h6' fontWeight={600} className="heading">LOGIN</Typography>
+                <TextField 
+                    margin='normal' 
+                    type={"text"} 
+                    variant='outlined' 
+                    fullWidth 
+                    placeholder='Email ID'
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)}
+                    />
+                <TextField 
+                    margin='normal' 
+                    type={"password"} 
+                    variant='outlined' 
+                    fullWidth  
+                    placeholder='Password' 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    />
+                <Button variant='contained' color='primary'>Login</Button>
+                <p>NEW USER? CLICK HERE TO REGISTER</p>
+            </div>   
+        </form>
     </div>
   )
 }
