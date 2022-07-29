@@ -14,13 +14,13 @@ public class Ticket {
 	private String ticketId;
 	
 	private String userId;
-	StatusEnum status;
-	LocalDate openTimeStamp;
-	LocalDate resolvedTimeStamp;
-	LocalDate withdrawnTimeStamp;
-	String title;
-	String ticketContent;
-	String ticketResponse;
+	private StatusEnum status;
+	private LocalDate openTimeStamp;
+	private LocalDate resolvedTimeStamp;
+	private LocalDate withdrawnTimeStamp;
+	private String title;
+	private String ticketContent;
+	private String ticketResponse;
 	
 	
 	public StatusEnum getStatus() {
