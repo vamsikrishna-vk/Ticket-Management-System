@@ -12,8 +12,13 @@ public class TicketService {
 	
 	@Autowired
 	TicketRepository ticketRepository;
+	@Autowired
+	SequenceGeneratorService sequenceGeneratorService;
 	
 	public void createTicket(Ticket ticket) {
+		
+		ticket.setTicketId(String.valueOf(sequenceGeneratorService.getNextSequence(ticket.SEQUENCE_NAME)));
+		
 		ticketRepository.save(ticket);
 	}
 	

@@ -1,0 +1,27 @@
+.submain{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+    margin: auto;
+    margin-top: 10%;
+    padding: 3px;
+}
+
+.heading{
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.submain input{
+    border: none;
+    background-color: #ebf5f4;    
+}
+
+.submain button{
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding: 10px 35px;
+}
+
