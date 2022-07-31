@@ -1,8 +1,24 @@
 [
     {
         "id":"1",
+        "name":"name1",
+        "email":"",
         "subject":"Test for subject",
         "status":"Open",
-        "date":"28-5-2022"
+        "date":"28-5-2022",
+        "messages":[
+            {
+                "sender":"name1",
+                "message":"This is the first message"
+            },
+            {
+                "sender":"admin",
+                "message":"This is the second message"
+            },
+            {
+                "sender":"name1",
+                "message":"This is the third message"
+            }
+        ]
     }
 ]

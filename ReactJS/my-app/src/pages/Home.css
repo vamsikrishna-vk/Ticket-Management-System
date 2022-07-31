@@ -1,0 +1,31 @@
+
+.profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile p{
+    margin: 0;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.profile_name{
+    font-weight: 700;
+}
+
+.home_header{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 50px;
+}
+
+.home_header button{
+    padding: 0 20px !important;
+    background-color: #11bf40;
+}    
+
+.home_header button:hover{
+    background-color: #0aa333;
+}

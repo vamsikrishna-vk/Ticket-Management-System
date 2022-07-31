@@ -1,6 +1,32 @@
-.maindiv{
-    margin-top: 50px;
-    margin-left: 50px;
+.conversation{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3%;
+    padding: 3px;
+}
+
+#list-item {
+    padding-left: 0;
+    width: 95%;
+}
+
+#conversation-stack {
+    width: 70%;
+}
+
+#conversation-paper {
+    display: flex;
+    padding: 30px;
+    width: 90%;
+}
+
+#chat-paper {
+    display: flex;
+    margin-bottom: 5px;
+    padding: 8px;
+    width: 100%;
 }
 
 .createdOn{
@@ -10,3 +36,13 @@
 .status{
     margin-top: 5px;
 }
+
+#chat-window {
+    height: 20rem;
+}
+
+#chat-window-messsages {
+    height: 18rem;
+    overflow: auto;
+}
+
