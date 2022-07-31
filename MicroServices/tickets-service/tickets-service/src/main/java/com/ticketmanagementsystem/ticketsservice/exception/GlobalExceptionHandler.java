@@ -18,6 +18,22 @@ public class GlobalExceptionHandler {
 				new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 	}
+	
+	//Handling Unauthorized Exception
+	@ExceptionHandler(UnauthorizedAccessException.class)
+	public ResponseEntity<?> UnauthorizedAccessExceptionHandling(UnauthorizedAccessException exception, WebRequest request){
+		ErrorDetails errorDetails = 
+				new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+	}
+	
+	//Handling Bad Request Exception
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<?> BadRequestExceptionHandling(BadRequestException exception, WebRequest request){
+		ErrorDetails errorDetails = 
+				new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+	}
 
 	// handling global exception
 	
