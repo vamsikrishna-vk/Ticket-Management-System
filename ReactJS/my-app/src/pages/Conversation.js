@@ -7,7 +7,7 @@ import { Box } from '@mui/system';
 import tickets from '../data/ticketsData.json'
 import { useState, useEffect } from "react";
 import { messageObject } from "../data/messageObject";
-import { Divider, Grid, List, ListItem, ListItemText, Paper } from "@mui/material";
+import { Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemText, MenuItem, Paper, Select } from "@mui/material";
 
 const ticket = tickets[0]
 
@@ -15,6 +15,11 @@ function Conversation() {
 
     const [newMessages, setNewMessages] = useState([]);
     const [message, setMessage] = useState("");
+    const [status, setStatus] = useState(ticket.status)
+
+    const handleStatus = (event) => {
+        setStatus(event.target.value)
+    }
 
     const handleMessageChange = (event) => {
         setMessage(event.target.value)
@@ -42,11 +47,30 @@ function Conversation() {
         <div className='conversation'>
             <Paper elevation={4} id="conversation-paper">
                 <Stack spacing={2} id="conversation-stack">
-                    <Box>
-                        <div className='subject'>Subject: {ticket.subject}</div>
-                        <div className='createdOn'>Created On: {ticket.date}</div>
-                        <div className='status'>Status: {ticket.status}</div>
-                    </Box>
+                    <Grid container spacing={2}>
+                        <Grid item xs={8}>
+                            <Box>
+                                <div className='subject'>Subject: {ticket.subject}</div>
+                                <div className='createdOn'>Created On: {ticket.date}</div>
+                                <div className='status'>Status: {ticket.status}</div>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={status}
+                                    label="Status"
+                                    onChange={handleStatus}
+                                >
+                                    <MenuItem value={"Open"}>Open</MenuItem>
+                                    <MenuItem value={"Closed"}>Closed</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
                     <Divider />
 
                     <Box>
