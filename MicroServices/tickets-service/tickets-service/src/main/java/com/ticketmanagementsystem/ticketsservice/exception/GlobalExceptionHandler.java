@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
 	// handling specific exception
 	@ExceptionHandler(TicketNotFoundException.class)
-	public ResponseEntity<?> resourceNotFoundHandling(TicketNotFoundException exception, WebRequest request){
+	public ResponseEntity<?> ticketNotFoundHandling(TicketNotFoundException exception, WebRequest request){
 		ErrorDetails errorDetails = 
 				new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);

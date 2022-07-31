@@ -21,17 +21,13 @@ public class TicketsController {
 	@Autowired
 	TicketService ticketService;
 	
-	
-	
 	@PostMapping("/createticket")
 	public String createTicket(@RequestBody Ticket ticket) {
 		// user Access
-		
-		
 		ticketService.createTicket(ticket);
-		
 		return "Ticket Created";
 	}
+	
 	@GetMapping("/getalltickets")
 	public List<Ticket> getAllTickets(){
 		//Admin only Accesss
