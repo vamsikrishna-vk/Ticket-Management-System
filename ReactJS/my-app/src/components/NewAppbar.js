@@ -1,8 +1,9 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import CssBaseline from '@mui/material/CssBaseline';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
 import IconButton from '@mui/material/IconButton';
 import HomeIcon from '@mui/icons-material/Home';
 import Menu from '@mui/material/Menu';
@@ -10,13 +11,27 @@ import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 
-
 const settings = [ 'Logout'];
 
 
-export default function ButtonAppBar() {
+function ElevationScroll(props) {
+  const {children} = props;
+  // Note that you normally won't need to set the window ref as useScrollTrigger
+  // will default to window.
+  // This is only being set here because the demo is in an iframe.
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
 
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+export default function ElevateAppBar(props) {
+
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -27,11 +42,14 @@ export default function ButtonAppBar() {
     setAnchorElUser(null);
   };
 
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <ElevationScroll {...props}>
+          <AppBar>
+            <Toolbar>
+
+            <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -39,9 +57,9 @@ export default function ButtonAppBar() {
             sx={{ mr: 2 }}
           >
             <HomeIcon />
-          </IconButton>
+          </IconButton>  
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Ticket Management System
           </Typography>
 
@@ -50,6 +68,7 @@ export default function ButtonAppBar() {
                 <Avatar src="/broken-image.jpg" />
               </IconButton>
             </Tooltip>
+
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -72,8 +91,11 @@ export default function ButtonAppBar() {
                 </MenuItem>
               ))}
             </Menu>
-        </Toolbar>
-      </AppBar>
-    </Box>
-  );
-}
+
+            </Toolbar>
+          </AppBar>
+        </ElevationScroll>
+        <Toolbar />
+      </React.Fragment>
+    );
+  }

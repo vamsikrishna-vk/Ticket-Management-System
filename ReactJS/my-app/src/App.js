@@ -8,7 +8,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Conversation from './pages/Conversation';
-import ButtonAppBar from "./components/Appbar";
+//import ButtonAppBar from "./components/Appbar";
+import ElevateAppBar from "./components/NewAppbar";
 
 
 function App() {
@@ -28,7 +29,7 @@ function Layout() {
   return (
     <div>
       <div>
-        <ButtonAppBar />
+        <ElevateAppBar />
       </div>
       <Outlet />
     </div>
