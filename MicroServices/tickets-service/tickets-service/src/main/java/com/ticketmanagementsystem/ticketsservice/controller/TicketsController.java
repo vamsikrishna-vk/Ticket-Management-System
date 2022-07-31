@@ -1,7 +1,6 @@
 package com.ticketmanagementsystem.ticketsservice.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -66,6 +65,14 @@ public class TicketsController {
 		String userId= principal.getAttribute("email");
 		
 		return ticketService.getTicket(ticketId,userId);
+		
+	}
+	@GetMapping("/getUserTickets")
+	public List<Ticket> getUserTickets(@AuthenticationPrincipal OAuth2User principal) {
+		
+		String userId= principal.getAttribute("email");
+		
+		return ticketService.getUserTickets(userId);
 		
 	}
 	

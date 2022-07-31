@@ -22,6 +22,5 @@ public class OauthConfiguration extends WebSecurityConfigurerAdapter {
         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
     )
     .oauth2Login();
-
 }
 }

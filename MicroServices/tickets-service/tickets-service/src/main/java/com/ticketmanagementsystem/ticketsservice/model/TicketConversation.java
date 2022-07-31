@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class TicketConversation {
 
-	private String ticketId;
+	
 	public String getTicketId() {
 		return ticketId;
 	}
@@ -16,12 +16,6 @@ public class TicketConversation {
 	}
 	public void setFromUserId(String fromUserId) {
 		this.fromUserId = fromUserId;
-	}
-	public String getToUserId() {
-		return toUserId;
-	}
-	public void setToUserId(String toUserId) {
-		this.toUserId = toUserId;
 	}
 	public String getMessageContent() {
 		return messageContent;
@@ -35,8 +29,8 @@ public class TicketConversation {
 	public void setTimeStamp(LocalDate timeStamp) {
 		this.timeStamp = timeStamp;
 	}
+	private String ticketId;
 	private String fromUserId;
-	private String toUserId;
 	private String messageContent;
 	private LocalDate timeStamp;
 	
