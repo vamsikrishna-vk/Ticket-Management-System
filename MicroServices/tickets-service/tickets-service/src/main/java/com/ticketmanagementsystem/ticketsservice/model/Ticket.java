@@ -23,8 +23,8 @@ public class Ticket {
 	private LocalDate resolvedTimeStamp;
 	private LocalDate withdrawnTimeStamp;
 	private String title;
-	private String ticketContent;
-	private String ticketResponse;
+//	private String ticketContent;
+//	private String ticketResponse;
 	
 	
 	public StatusEnum getStatus() {
@@ -69,21 +69,21 @@ public class Ticket {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getTicketContent() {
-		return ticketContent;
-	}
-	public void setTicketContent(String ticketContent) {
-		this.ticketContent = ticketContent;
-	}
-	public String getTicketResponse() {
-		return ticketResponse;
-	}
-	public void setTicketResponse(String ticketResponse) {
-		this.ticketResponse = ticketResponse;
-	}
+//	public String getTicketContent() {
+//		return ticketContent;
+//	}
+//	public void setTicketContent(String ticketContent) {
+//		this.ticketContent = ticketContent;
+//	}
+//	public String getTicketResponse() {
+//		return ticketResponse;
+//	}
+//	public void setTicketResponse(String ticketResponse) {
+//		this.ticketResponse = ticketResponse;
+//	}
 	
 	public Ticket(String ticketId, String userId, StatusEnum status, LocalDate openTimeStamp, LocalDate resolvedTimeStamp,
-			LocalDate withdrawnTimeStamp, String title, String ticketContent, String ticketResponse) {
+			LocalDate withdrawnTimeStamp, String title) {
 		super();
 		this.ticketId = ticketId;
 		this.userId = userId;
@@ -92,8 +92,8 @@ public class Ticket {
 		this.resolvedTimeStamp = resolvedTimeStamp;
 		this.withdrawnTimeStamp = withdrawnTimeStamp;
 		this.title = title;
-		this.ticketContent = ticketContent;
-		this.ticketResponse = ticketResponse;
+//		this.ticketContent = ticketContent;
+//		this.ticketResponse = ticketResponse;
 	}
 	
 	
