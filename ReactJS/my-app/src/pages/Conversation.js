@@ -15,7 +15,7 @@ function Conversation() {
 
     const [newMessages, setNewMessages] = useState([]);
     const [message, setMessage] = useState("");
-    const [status, setStatus] = useState(ticket.status)
+    const [status, setStatus] = useState(ticket.status);
 
     const handleStatus = (event) => {
         setStatus(event.target.value)
@@ -57,16 +57,21 @@ function Conversation() {
                         </Grid>
                         <Grid item xs={4}>
                             <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <label style={{marginLeft: 10}}>status</label>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                    style={{
+                                        color: 'white',
+                                        backgroundColor: (status === 'Withdrawn') ? '#F76E11' : (status === 'Open') ? '#346EEB' : '#2B8F32'
+                                    }}
+                                    labelId="simple-select-label"
+                                    id="simple-select"
                                     value={status}
                                     label="Status"
                                     onChange={handleStatus}
                                 >
                                     <MenuItem value={"Open"}>Open</MenuItem>
-                                    <MenuItem value={"Closed"}>Closed</MenuItem>
+                                    <MenuItem value={"Resolved"}>Resolved</MenuItem>
+                                    <MenuItem value={"Withdrawn"}>Withdrawn</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
