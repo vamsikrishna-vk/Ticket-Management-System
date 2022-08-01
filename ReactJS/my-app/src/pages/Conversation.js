@@ -7,7 +7,7 @@ import { Box } from '@mui/system';
 import tickets from '../data/ticketsData.json'
 import { useState, useEffect } from "react";
 import { messageObject } from "../data/messageObject";
-import { Divider, FormControl, Grid, InputLabel, List, ListItem, ListItemText, MenuItem, Paper, Select } from "@mui/material";
+import { Divider, FormControl, Grid, List, ListItem, ListItemText, MenuItem, Paper, Select } from "@mui/material";
 
 const ticket = tickets[0]
 
