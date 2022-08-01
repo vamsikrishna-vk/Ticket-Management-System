@@ -10,9 +10,26 @@ import Home from './pages/Home';
 import Conversation from './pages/Conversation';
 //import ButtonAppBar from "./components/Appbar";
 import ElevateAppBar from "./components/NewAppbar";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 function App() {
+
+  
+
+  useEffect(() => {
+      axios.get("https://localhost:8080").then(
+        (response) => {
+          console.log(response)
+        }
+      ).catch(
+        (error) => {
+          console.log(error)
+        }
+      )
+  }, [])
+
   return (
     <Routes>
     <Route path="/" element={<Layout />}>
