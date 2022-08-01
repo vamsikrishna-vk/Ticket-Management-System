@@ -1,6 +1,9 @@
 package com.ticketmanagementsystem.ticketsservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import com.ticketmanagementsystem.ticketsservice.dao.TicketRepository;
 import com.ticketmanagementsystem.ticketsservice.exception.BadRequestException;
@@ -19,6 +22,9 @@ public class TicketService {
 	TicketRepository ticketRepository;
 	@Autowired
 	SequenceGeneratorService sequenceGeneratorService;
+	
+	@Autowired
+	private MongoTemplate mongoTemplate;
 	
 	public void createTicket(Ticket ticket,String userId) throws BadRequestException{
 		
@@ -73,6 +79,16 @@ public class TicketService {
 		
 		throw new UnauthorizedAccessException(userId+" is not Authorized to access ticket ID: "+ticketId);
 	
+	}
+	
+	public List<Ticket> getUserTickets(String userId){
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("userId").is(userId));
+		List<Ticket> tickets = mongoTemplate.find(query,Ticket.class);
+		
+		return tickets;
+				
 	}
 	
 //	public void UpdateTicketResponse(String ticketId,String ticketResponse) {

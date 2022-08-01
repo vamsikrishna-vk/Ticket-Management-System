@@ -24,14 +24,14 @@ const renderRequester = (params) => {
 }
 
 const columns = [
-  { field: 'requester', headerName: 'Requester', width: 250, renderCell: renderRequester},
-  { field: 'title', headerName: 'Title', width: 130 },
-  { field: 'Satus',
-        headerName: 'Status',
-        width: 150,
+  { field: 'requester', headerName: 'REQUESTER',  flex : 1, renderCell: renderRequester},
+  { field: 'title', headerName: 'TITLE',  flex : 1 },
+  { field: 'Status',
+        headerName: 'STATUS',
+        flex : 1,
         renderCell: renderDetailsButton,
         disableClickEventBubbling: true},
-  { field: 'lastrequestdate', headerName: 'Last Request Date', width: 140 },
+  { field: 'lastrequestdate', headerName: 'LAST REQUEST DATE',  flex : 1 },
 
 ];
 
@@ -47,17 +47,17 @@ const ColoredLine = ({ color }) => (
     style={{
       color,
       backgroundColor: color,
-      height: 1
+      height: 0.5
     }}
   />
 );
 function Home() {
     return (
         
-        <div style={{ height: 400, width: '100%' }} className = "divStyle">
+        <div  className = "divStyle">
             <div class="home_header">
-                <h3>All Tickets</h3>
-                <Button variant="contained" size="small" >Create Ticket</Button>
+                <p className="pStyle">All Tickets</p>
+                <Button variant="contained"  >Create Ticket</Button>
                 
             </div>
             <ColoredLine color="grey" />
@@ -74,7 +74,7 @@ function Home() {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        checkboxSelection
+        /*checkboxSelection*/
       />
     </div>
     );
