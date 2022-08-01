@@ -16,28 +16,31 @@ import axios from "axios";
 
 function App() {
 
-  
+
 
   useEffect(() => {
-      axios.get("https://localhost:8080").then(
-        (response) => {
-          console.log(response)
-        }
-      ).catch(
-        (error) => {
-          console.log(error)
-        }
-      )
+    axios.get("http://localhost:8080/getalltickets", {
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+
+    }).then(
+      (response) => {
+        console.log(response)
+      }
+    ).catch(
+      (error) => {
+        console.log(error)
+      }
+    )
   }, [])
 
   return (
     <Routes>
-    <Route path="/" element={<Layout />}>
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Signup />} />
-      <Route path="home" element={<Home />} />
-      <Route path="conversation" element={<Conversation />} />
-    </Route>
+      <Route path="/" element={<Layout />}>
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="home" element={<Home />} />
+        <Route path="conversation" element={<Conversation />} />
+      </Route>
     </Routes>
   );
 }
