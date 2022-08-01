@@ -22,10 +22,29 @@
 }
 
 .home_header button{
-    padding: 0 20px !important;
+    flex: -1;
     background-color: #11bf40;
 }    
 
 .home_header button:hover{
     background-color: #0aa333;
 }
+
+.divStyle {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  height:400px ;
+  width: 100%;
+}
+
+.gridStyle {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  width: 100%;
+  height: 100%;
+}
+
+.pStyle {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: large;
+  font-weight: bold;
+}
+
