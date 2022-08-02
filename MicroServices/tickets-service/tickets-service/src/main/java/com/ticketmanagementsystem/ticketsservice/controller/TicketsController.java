@@ -20,16 +20,17 @@ import com.ticketmanagementsystem.ticketsservice.service.TicketService;
 
 @RestController
 @RequestMapping
+@CrossOrigin(origins = "*")
 public class TicketsController {
 	
 	@Autowired
 	TicketService ticketService;
 	@CrossOrigin(origins = "*")
 	@PostMapping("/createticket")
-	public String createTicket(@RequestBody Ticket ticket) {
-//		,@AuthenticationPrincipal OAuth2User principal
-//		String userId= principal.getAttribute("email");
-		String userId="vamsikrishna6037@gmail.com";
+	public String createTicket(@RequestBody Ticket ticket,@AuthenticationPrincipal OAuth2User principal) {
+//		
+		String userId= principal.getAttribute("email");
+//		String userId="vamsikrishna6037@gmail.com";
 		ticketService.createTicket(ticket,userId);
 		
 		return "Ticket Created";
@@ -37,6 +38,7 @@ public class TicketsController {
 	}
 	
 	//to get all tickets of a specific user
+
 	@CrossOrigin(origins = "*")
 	@GetMapping("/getalltickets")
 	public List<Ticket> getAllTickets(@AuthenticationPrincipal OAuth2User principal){

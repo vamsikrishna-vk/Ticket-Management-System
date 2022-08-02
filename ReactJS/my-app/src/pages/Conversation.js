@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import "./Conversation.css";
 import { Box } from '@mui/system';
 import tickets from '../data/ticketsData.json'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { messageObject } from "../data/messageObject";
 import { Divider, FormControl, Grid, List, ListItem, ListItemText, MenuItem, Paper, Select } from "@mui/material";
 
@@ -13,9 +13,16 @@ const ticket = tickets[0]
 
 function Conversation() {
 
-    const [newMessages, setNewMessages] = useState([]);
+    const [newMessages, setNewMessages] = useState(ticket.messages);
     const [message, setMessage] = useState("");
     const [status, setStatus] = useState(ticket.status);
+    const endRef = useRef(null)
+
+    const scrollToBottom = () => {
+        endRef.current.scrollIntoView({behavior:"smooth"})
+    }
+
+    useEffect(scrollToBottom, [newMessages])
 
     const handleStatus = (event) => {
         setStatus(event.target.value)
@@ -29,17 +36,18 @@ function Conversation() {
         event.preventDefault()
         if (message) {
             console.log(message)
-            setNewMessages(new messageObject(ticket.name, message))
+            setNewMessages([...newMessages, new messageObject(ticket.name, message)])
             setMessage('')
         }
 
     }
 
-    const listMessages = ticket.messages.map((messageObject, index) =>
+    const listMessages = newMessages.map((messageObject, index) =>
         <ListItem key={index} id="list-item">
             <Paper elevation={2} id="chat-paper" square>
                 <ListItemText primary={`${messageObject.sender}: ${messageObject.message}`} />
             </Paper>
+            <div ref={endRef} />
         </ListItem>
     );
 
