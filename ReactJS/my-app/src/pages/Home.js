@@ -84,7 +84,7 @@ function Home() {
   const [tickets, setTickets] = useState([])
 
   const columns = [
-    { field: 'ticketId', headerName: 'REQUESTER', flex: 1 },
+    { field: 'userId', headerName: 'REQUESTER', flex: 1 },
     { field: 'title', headerName: 'SUBJECT', flex: 1 },
     {
       field: 'status',
@@ -96,30 +96,17 @@ function Home() {
 
   ];
 
-  const row = []
-  const rows2 = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-  ];
 
 
   useEffect(() => {
     axios.get(`${baseurl}getalltickets`, {
     }).then(
       function (response) {
-        console.log(response.data)
         /*setTickets(response.data.map((ticket, index) =>
           new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
         ))*/
         const rowObjects = response.data.map((ticket, index)=>           
-          new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+          new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
         ) 
         setTickets(rowObjects)
         console.log("im not inside error")
@@ -170,8 +157,8 @@ function Home() {
 
 
   const handleTicketClick = (props) => {
-    console.log(props.row.status)
-    navigate(`../conversation/${props.row.id}/${props.row.requester}/${props.row.status}/${props.row.title}/${props.row.lastrequestdate}`)
+    console.log(props)
+    navigate(`../conversation/${props.row.ticketId}/${props.row.userId}/${props.row.status}/${props.row.title}/${props.row.withdrawnTimeStamp}`)
   }
 
 

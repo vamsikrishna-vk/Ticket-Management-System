@@ -18,7 +18,7 @@ function Conversation() {
     const ticket = tickets.find(item => item.id === id)
     const [newMessages, setNewMessages] = useState(ticket.messages);
     const [message, setMessage] = useState("");
-    const [currStatus, setCurrStatus] = useState(status);
+    const [currStatus, setCurrStatus] = useState(status.toLowerCase());
     const endRef = useRef(null)
 
     const scrollToBottom = () => {
@@ -72,7 +72,7 @@ function Conversation() {
                                 <Select
                                     style={{
                                         color: 'white',
-                                        backgroundColor: (currStatus === 'Withdrawn') ? '#F76E11' : (currStatus === 'Open') ? '#346EEB' : '#2B8F32'
+                                        backgroundColor: (currStatus === 'withdrawn') ? '#F76E11' : (currStatus === 'open') ? '#346EEB' : '#2B8F32'
                                     }}
                                     labelId="simple-select-label"
                                     id="simple-select"
@@ -80,9 +80,9 @@ function Conversation() {
                                     label="Status"
                                     onChange={handleStatus}
                                 >
-                                    <MenuItem value={"Open"}>Open</MenuItem>
-                                    <MenuItem value={"Resolved"}>Resolved</MenuItem>
-                                    <MenuItem value={"Withdrawn"}>Withdrawn</MenuItem>
+                                    <MenuItem value={"open"}>Open</MenuItem>
+                                    <MenuItem value={"resolved"}>Resolved</MenuItem>
+                                    <MenuItem value={"withdrawn"}>Withdrawn</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
