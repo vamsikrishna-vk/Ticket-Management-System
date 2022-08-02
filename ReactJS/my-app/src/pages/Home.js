@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { Container } from "@mui/system";
-import DataTable from "./DataTable";
 
 class ticketObject {
   constructor(id, ticketId, userId, title, status, withdrawnTimeStamp) {
@@ -80,11 +79,11 @@ function Home() {
   console.log(document.cookie);
   const baseurl = "http://localhost:8080/"
   const isAdmin = false
+
   
-  const [tickets, setTickets] = useState([])
 
   const columns = [
-    { field: 'userId', headerName: 'REQUESTER', flex: 1 },
+    { field: 'ticketId', headerName: 'REQUESTER', flex: 1 },
     { field: 'title', headerName: 'SUBJECT', flex: 1 },
     {
       field: 'status',
@@ -93,22 +92,35 @@ function Home() {
       disableClickEventBubbling: true
     },
     { field: 'withdrawnTimeStamp', headerName: 'LAST REQUEST DATE', flex: 1 },
-
+  
   ];
 
+  const row = []
+  const rows2 = [
+    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  ];
 
-
+  const { tickets, setTickets } = useState([])
   useEffect(() => {
+
+    
     axios.get(`${baseurl}getalltickets`, {
     }).then(
       function (response) {
-        /*setTickets(response.data.map((ticket, index) =>
-          new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
-        ))*/
-        const rowObjects = response.data.map((ticket, index)=>           
-          new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
-        ) 
-        setTickets(rowObjects)
+        // setTickets(response.data.map((ticket, index) =>
+        //   new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+        // ))
+        console.log(response.data)
+        setTickets(response.data)
+        
         console.log("im not inside error")
         if (response.status === 401)
           window.open(`http://localhost:8080/oauth2/authorization/google?REDIRECT_URI=http://localhost:3000/home`)
@@ -124,7 +136,7 @@ function Home() {
       }
     )
     console.log('i fire once')
-  }, [])
+  })
 
 
   const navigate = useNavigate();
@@ -179,13 +191,12 @@ function Home() {
 
 
   const handleTicketClick = (props) => {
-    console.log(props)
-    navigate(`../conversation/${props.row.ticketId}/${props.row.userId}/${props.row.status}/${props.row.title}/${props.row.withdrawnTimeStamp}`)
+    console.log(props.row.status)
+    navigate(`../conversation/${props.row.id}/${props.row.requester}/${props.row.status}/${props.row.title}/${props.row.lastrequestdate}`)
   }
 
-
   return (
-
+    
     <Container>
       <div className="divStyle">
         <div className="home_header">
@@ -235,13 +246,14 @@ function Home() {
       </ToggleButtonGroup>
   <ColoredLine color="grey" />–– */}
 
-<DataGrid className="gridStyle"
+        <DataGrid className="gridStyle"
           onCellClick={handleTicketClick}
           rows={tickets}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
           components={{ Toolbar: GridToolbar }}
+        /*checkboxSelection*/
         />
       </div>
     </Container>

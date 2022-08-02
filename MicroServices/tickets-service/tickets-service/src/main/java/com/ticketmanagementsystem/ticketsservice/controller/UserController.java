@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticketmanagementsystem.ticketsservice.model.User;
@@ -37,6 +38,14 @@ public class UserController {
 		
 		return usersservice.getUserDetails(userId);
 	
+	}
+	@PostMapping("/makeadmin")
+	public void makeAdmin(@RequestBody String newAdminId,@AuthenticationPrincipal OAuth2User principal) {
+		
+		String userId=principal.getAttribute("email");
+		System.out.print(userId);
+		usersservice.makeAdmin(userId,newAdminId);
+		 
 	}
 
 }
