@@ -4,28 +4,44 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import "./Conversation.css";
 import { Box } from '@mui/system';
-import tickets from '../data/ticketsData.json'
 import { useState, useEffect, useRef } from "react";
 import { messageObject } from "../data/messageObject";
 import { Divider, FormControl, Grid, List, ListItem, ListItemText, MenuItem, Paper, Select } from "@mui/material";
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 
+axios.defaults.withCredentials = 'true';
+axios.defaults.crossDomain = 'true';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['withCredentials'] = 'true';
 
 function Conversation() {
 
     const {id, name, status, subject, date} = useParams()
-    const ticket = tickets.find(item => item.id === id)
-    const [newMessages, setNewMessages] = useState(ticket.messages);
+    const [newMessages, setNewMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [currStatus, setCurrStatus] = useState(status.toLowerCase());
     const endRef = useRef(null)
+    const [cookies] = useCookies(['XSRF-TOKEN']);
+    const baseurl = "http://localhost:8080/"
 
-    const scrollToBottom = () => {
+    useEffect(() => {
+        axios.get(`${baseurl}getconversation/${id}`).then((response) => {
+            console.log(response)
+            const messageHistory = response.data.map((data)=>
+                new messageObject(data.fromUserId, data.messageContent)
+            )
+            setNewMessages(messageHistory)
+        })
+    }, [id])
+
+    /*const scrollToBottom = () => {
         endRef.current.scrollIntoView({behavior:"smooth"})
     }
 
-    useEffect(scrollToBottom, [newMessages])
+    useEffect(scrollToBottom, [newMessages])*/
 
     const handleStatus = (event) => {
         setCurrStatus(event.target.value)
@@ -39,16 +55,29 @@ function Conversation() {
         event.preventDefault()
         if (message) {
             console.log(message)
-            setNewMessages([...newMessages, new messageObject(name, message)])
+            const data = JSON.stringify({
+                "messageContent": message,
+                "ticketId":id
+            })
+            console.log(data)
+            axios.post(`${baseurl}sendmessage`, data, {headers: {
+                'Content-Type': 'application/json'
+            }}).then(()=>{
+                setNewMessages([...newMessages, new messageObject(name, message)])
+            }).catch((error)=>{
+                console.log(error)
+            })
             setMessage('')
         }
 
     }
 
+    
+
     const listMessages = newMessages.map((messageObject, index) =>
         <ListItem key={index} id="list-item">
             <Paper elevation={2} id="chat-paper" square>
-                <ListItemText primary={`${messageObject.sender}: ${messageObject.message}`} />
+                <ListItemText primary={`${messageObject.message}`} secondary={`${messageObject.sender}`} />
             </Paper>
             <div ref={endRef} />
         </ListItem>

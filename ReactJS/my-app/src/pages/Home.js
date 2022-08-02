@@ -111,7 +111,7 @@ function Home() {
         setTickets(rowObjects)
         console.log("im not inside error")
         if (response.status === 401)
-          window.open(`http://localhost:8080/oauth2/authorization/google?REDIRECT_URI=http://localhost:3000/home`)
+          window.open(`http://localhost:8080/oauth2/authorization/google`)
       }
     ).catch(
       function (error) {
@@ -119,7 +119,7 @@ function Home() {
         console.log("im inside error")
         if (error.response.status === 401) {
           console.log(error.response.status)
-          console.log(window.open(`http://localhost:8080/oauth2/authorization/google`, "_self"))
+          console.log(window.open(`http://localhost:8080/oauth2/authorization/google`))
         }
       }
     )
