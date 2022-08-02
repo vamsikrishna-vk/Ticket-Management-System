@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { Container } from "@mui/system";
+import DataTable from "./DataTable";
 
 class ticketObject {
   constructor(id, ticketId, userId, title, status, withdrawnTimeStamp) {
@@ -79,11 +80,11 @@ function Home() {
   console.log(document.cookie);
   const baseurl = "http://localhost:8080/"
   const isAdmin = false
-
   
+  const [tickets, setTickets] = useState([])
 
   const columns = [
-    { field: 'ticketId', headerName: 'REQUESTER', flex: 1 },
+    { field: 'userId', headerName: 'REQUESTER', flex: 1 },
     { field: 'title', headerName: 'SUBJECT', flex: 1 },
     {
       field: 'status',
@@ -92,35 +93,22 @@ function Home() {
       disableClickEventBubbling: true
     },
     { field: 'withdrawnTimeStamp', headerName: 'LAST REQUEST DATE', flex: 1 },
-  
+
   ];
 
-  const row = []
-  const rows2 = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-  ];
 
-  const { tickets, setTickets } = useState([])
+
   useEffect(() => {
-
-    
     axios.get(`${baseurl}getalltickets`, {
     }).then(
       function (response) {
-        // setTickets(response.data.map((ticket, index) =>
-        //   new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
-        // ))
-        console.log(response.data)
-        setTickets(response.data)
-        
+        /*setTickets(response.data.map((ticket, index) =>
+          new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+        ))*/
+        const rowObjects = response.data.map((ticket, index)=>           
+          new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+        ) 
+        setTickets(rowObjects)
         console.log("im not inside error")
         if (response.status === 401)
           window.open(`http://localhost:8080/oauth2/authorization/google?REDIRECT_URI=http://localhost:3000/home`)
@@ -136,12 +124,13 @@ function Home() {
       }
     )
     console.log('i fire once')
-  })
+  }, [])
 
 
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false)
+  const [title, setTitle] = useState("")
 
   const handleCreateTicket = () => {
     setOpen(true)
@@ -149,7 +138,28 @@ function Home() {
 
   const handleClose = () => {
     setOpen(false);
-  };
+  }
+
+  const handleNewTicketSubjectChange = (event) => {
+      setTitle(event.target.value)
+  }
+
+  const handleCreateButton = () => {
+    const postObject = JSON.stringify({"title":title})
+    console.log(postObject)
+    axios.post(`${baseurl}createticket`, postObject, {headers: {
+      'Content-Type': 'application/json'
+    }}).then(
+      (response) => {
+        console.log(response)
+      }
+    ).catch(
+      (error) => {
+        console.log(error)
+      }
+    )
+    handleClose()
+  }
 
   //const [filterOptions, setFilterOptions] = React.useState(() => ['open', 'withdrawn', 'resolved']);
 
@@ -169,12 +179,13 @@ function Home() {
 
 
   const handleTicketClick = (props) => {
-    console.log(props.row.status)
-    navigate(`../conversation/${props.row.id}/${props.row.requester}/${props.row.status}/${props.row.title}/${props.row.lastrequestdate}`)
+    console.log(props)
+    navigate(`../conversation/${props.row.ticketId}/${props.row.userId}/${props.row.status}/${props.row.title}/${props.row.withdrawnTimeStamp}`)
   }
 
+
   return (
-    
+
     <Container>
       <div className="divStyle">
         <div className="home_header">
@@ -190,6 +201,7 @@ function Home() {
           <DialogContent>
             <TextField
               autoFocus
+              onChange={handleNewTicketSubjectChange}
               margin="dense"
               id="dialogbox-subject"
               label="Subject"
@@ -197,22 +209,11 @@ function Home() {
               fullWidth
               variant="standard"
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="dialogbox-message"
-              label="Message"
-              type="text"
-              fullWidth
-              variant="filled"
-              maxRows={5}
-              multiline
-            />
           </DialogContent>
 
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Create</Button>
+            <Button onClick={handleCreateButton}>Create</Button>
           </DialogActions>
         </Dialog>
 
@@ -234,14 +235,13 @@ function Home() {
       </ToggleButtonGroup>
   <ColoredLine color="grey" />–– */}
 
-        <DataGrid className="gridStyle"
+<DataGrid className="gridStyle"
           onCellClick={handleTicketClick}
           rows={tickets}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
           components={{ Toolbar: GridToolbar }}
-        /*checkboxSelection*/
         />
       </div>
     </Container>
