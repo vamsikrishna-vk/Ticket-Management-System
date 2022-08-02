@@ -9,21 +9,35 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
-import tickets from '../data/ticketsData.json'
+//import tickets from '../data/ticketsList.json'
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { Container } from "@mui/system";
 
 class ticketObject {
-  constructor(id, requester, title, status, lastrequestdate) {
+  constructor(id, ticketId, userId, title, status, withdrawnTimeStamp) {
     this.id = id
-    this.requester = requester
+    this.ticketId = ticketId
+    this.userId = userId
     this.title = title
     this.status = status
-    this.lastrequestdate = lastrequestdate
+    this.withdrawnTimeStamp = withdrawnTimeStamp
   }
 }
+
+/*const columns = [
+  { field: 'ticketId', headerName: 'REQUESTER', flex: 1 },
+  { field: 'title', headerName: 'SUBJECT', flex: 1 },
+  {
+    field: 'status',
+    headerName: 'STATUS',
+    flex: 1,
+    disableClickEventBubbling: true
+  },
+  { field: 'withdrawnTimeStamp', headerName: 'LAST REQUEST DATE', flex: 1 },
+
+];*/
 
 const renderDetailsButton = (params) => {
   return (
@@ -42,24 +56,6 @@ const renderRequester = (params) => {
     </div>
   )
 }
-
-const columns = [
-  { field: 'requester', headerName: 'REQUESTER', flex: 1 },
-  { field: 'title', headerName: 'SUBJECT', flex: 1 },
-  {
-    field: 'status',
-    headerName: 'STATUS',
-    flex: 1,
-    disableClickEventBubbling: true
-  },
-  { field: 'lastrequestdate', headerName: 'LAST REQUEST DATE', flex: 1 },
-
-];
-
-let rows = tickets.map((ticket) =>
-  new ticketObject(ticket.id, ticket.name, ticket.subject, ticket.status, ticket.date)
-)
-
 //const ticketObjArray = rows
 
 const ColoredLine = ({ color }) => (
@@ -79,32 +75,64 @@ axios.defaults.headers.post['withCredentials'] = 'true';
 
 function Home() {
 
-  const [cookies] = useCookies(['XSRF-TOKEN'])
+  const [cookies] = useCookies(['XSRF-TOKEN']);
+  console.log(document.cookie);
   const baseurl = "http://localhost:8080/"
   const isAdmin = false
 
-  let config = {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      "Access-Control-Allow-Headers": "Access-Control-Allow-Origin,Credentials,Authorization, X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept, X-Custom-header",
-    }
-  }
+  const { tickets, setTickets } = useState([])
+
+  const columns = [
+    { field: 'ticketId', headerName: 'REQUESTER', flex: 1 },
+    { field: 'title', headerName: 'SUBJECT', flex: 1 },
+    {
+      field: 'status',
+      headerName: 'STATUS',
+      flex: 1,
+      disableClickEventBubbling: true
+    },
+    { field: 'withdrawnTimeStamp', headerName: 'LAST REQUEST DATE', flex: 1 },
+  
+  ];
+
+  const row = []
+  const rows2 = [
+    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  ];
+
 
   useEffect(() => {
-    axios.get(`${baseurl}getticket/1`, {
+    axios.get(`${baseurl}getalltickets`, {
     }).then(
       function (response) {
-        console.log(response);
+        setTickets(response.data.map((ticket, index) =>
+          new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+        ))
+        console.log(tickets)
+        console.log("im not inside error")
+        if (response.status === 401)
+          window.open(`http://localhost:8080/oauth2/authorization/google?REDIRECT_URI=http://localhost:3000/home`)
       }
     ).catch(
       function (error) {
         console.log(error)
+        console.log("im inside error")
+        if (error.response.status === 401) {
+          console.log(error.response.status)
+          console.log(window.open(`http://localhost:8080/oauth2/authorization/google`, "_self"))
+        }
       }
     )
     console.log('i fire once')
-  }, [])
+  })
 
 
   const navigate = useNavigate();
@@ -150,7 +178,7 @@ function Home() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             All Tickets
           </Typography>
-         { !isAdmin? <Button variant="contained" onClick={handleCreateTicket}  >Create Ticket</Button>: null}
+          {!isAdmin ? <Button variant="contained" onClick={handleCreateTicket}  >Create Ticket</Button> : null}
         </div>
         <ColoredLine color="grey" />
 
@@ -205,7 +233,7 @@ function Home() {
 
         <DataGrid className="gridStyle"
           onCellClick={handleTicketClick}
-          rows={rows}
+          rows={tickets}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}

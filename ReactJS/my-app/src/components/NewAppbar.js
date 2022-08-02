@@ -12,8 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 
-const settings = ['Logout'];
-
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -46,6 +44,10 @@ export default function ElevateAppBar(props) {
 
   const handleClickHome = () => {
     navigate('../home')
+  }
+
+  const handleLogout = () => {
+    handleCloseUserMenu()
   }
 
   return (
@@ -92,11 +94,9 @@ export default function ElevateAppBar(props) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-              ))}
             </Menu>
 
           </Toolbar>

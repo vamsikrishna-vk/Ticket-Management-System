@@ -1,0 +1,74 @@
+[
+    {
+        "ticketId": "1",
+        "userId": "vamsikrishna6037@gmail.com",
+        "status": "OPEN",
+        "openTimeStamp": null,
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket"
+    },
+    {
+        "ticketId": "2",
+        "userId": "vamsikrishna6037@gmail.com",
+        "status": "OPEN",
+        "openTimeStamp": null,
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket"
+    },
+    {
+        "ticketId": "3",
+        "userId": "vamsikrishna6037@gmail.com",
+        "status": "OPEN",
+        "openTimeStamp": null,
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket"
+    },
+    {
+        "ticketId": "4",
+        "userId": "dhanashree@gmail.com",
+        "status": "RESOLVED",
+        "openTimeStamp": null,
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket raised by dhanashree"
+    },
+    {
+        "ticketId": "5",
+        "userId": "vamsikrishna6037@gmail.com",
+        "status": "OPEN",
+        "openTimeStamp": "2022-08-02",
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket"
+    },
+    {
+        "ticketId": "6",
+        "userId": "vamsikrishna6037@gmail.com",
+        "status": "OPEN",
+        "openTimeStamp": "2022-08-02",
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket"
+    },
+    {
+        "ticketId": "8",
+        "userId": "vamsikrishna6037@gmail.com",
+        "status": "OPEN",
+        "openTimeStamp": "2022-08-02",
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket"
+    },
+    {
+        "ticketId": "7",
+        "userId": "vamsikrishna6037@gmail.com",
+        "status": "OPEN",
+        "openTimeStamp": "2022-08-02",
+        "resolvedTimeStamp": null,
+        "withdrawnTimeStamp": null,
+        "title": "I am a new Ticket"
+    }
+]
