@@ -80,7 +80,7 @@ function Home() {
   const baseurl = "http://localhost:8080/"
   const isAdmin = false
 
-  const { tickets, setTickets } = useState([])
+  
 
   const columns = [
     { field: 'ticketId', headerName: 'REQUESTER', flex: 1 },
@@ -108,15 +108,19 @@ function Home() {
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
   ];
 
-
+  const { tickets, setTickets } = useState([])
   useEffect(() => {
+
+    
     axios.get(`${baseurl}getalltickets`, {
     }).then(
       function (response) {
-        setTickets(response.data.map((ticket, index) =>
-          new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
-        ))
-        console.log(tickets)
+        // setTickets(response.data.map((ticket, index) =>
+        //   new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+        // ))
+        console.log(response.data)
+        setTickets(response.data)
+        
         console.log("im not inside error")
         if (response.status === 401)
           window.open(`http://localhost:8080/oauth2/authorization/google?REDIRECT_URI=http://localhost:3000/home`)
@@ -169,9 +173,8 @@ function Home() {
     navigate(`../conversation/${props.row.id}/${props.row.requester}/${props.row.status}/${props.row.title}/${props.row.lastrequestdate}`)
   }
 
-
   return (
-
+    
     <Container>
       <div className="divStyle">
         <div className="home_header">
