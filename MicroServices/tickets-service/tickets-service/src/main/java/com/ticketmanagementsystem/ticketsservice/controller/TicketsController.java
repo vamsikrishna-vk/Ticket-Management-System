@@ -28,9 +28,9 @@ public class TicketsController {
 	@CrossOrigin(origins = "*")
 	@PostMapping("/createticket")
 	public String createTicket(@RequestBody Ticket ticket,@AuthenticationPrincipal OAuth2User principal) {
-//		
+	
 		String userId= principal.getAttribute("email");
-//		String userId="vamsikrishna6037@gmail.com";
+
 		ticketService.createTicket(ticket,userId);
 		
 		return "Ticket Created";

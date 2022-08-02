@@ -41,7 +41,7 @@ public class OauthConfiguration extends WebSecurityConfigurerAdapter {
 http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	http
 	.authorizeRequests(a -> a
-        .antMatchers("/", "/error", "/webjars/**").permitAll()
+        .antMatchers("/", "/error", "/webjars/**","/spring-security-rest/**").permitAll()
         .anyRequest().authenticated()
     )
 	.logout(l -> l

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -34,7 +36,13 @@ public class GlobalExceptionHandler {
 				new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
-
+	
+		@ExceptionHandler(UserNotFoundException.class)
+		public ResponseEntity<?> UserNotFoundExceptionHandling(UserNotFoundException exception, WebRequest request){
+			ErrorDetails errorDetails = 
+					new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false));
+			return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+		}
 	// handling global exception
 	
 	@ExceptionHandler(Exception.class)
