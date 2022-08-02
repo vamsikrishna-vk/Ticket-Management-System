@@ -25,8 +25,6 @@ public class TicketService {
 	
 	@Autowired
 	private MongoTemplate mongoTemplate;
-	@Autowired
-	UsersService usersService;
 	
 	public void createTicket(Ticket ticket,String userId) throws BadRequestException{
 		
@@ -46,7 +44,7 @@ public class TicketService {
 	
 	public List<Ticket> getAllTickets(String userId) throws UnauthorizedAccessException{
 		
-		if(usersService.isAdmin(userId)) {
+		if(userId.equals("vamsikrishna6037@gmail.com")) {
 			return ticketRepository.findAll();
 		}
 		

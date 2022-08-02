@@ -24,8 +24,6 @@ public class TicketConversationService {
 	@Autowired
 	TicketRepository ticketRepository;
 	@Autowired
-	UsersService usersService;
-	@Autowired
 	private MongoTemplate mongoTemplate;
 
 	public void sendMessage(TicketConversation ticketConversation,String userId) {
@@ -34,7 +32,7 @@ public class TicketConversationService {
 		Ticket ticket = ticketRepository.findById(ticketConversation.getTicketId()).orElseThrow(()-> new TicketNotFoundException(ticketConversation.getTicketId()+" Not Found."));
 		
 		
-		if(ticket.getUserId().equals(userId) || usersService.isAdmin(userId)) {
+		if(ticket.getUserId().equals(userId)) {
 			ticketConversation.setFromUserId(userId);
 			ticketConversation.setTimeStamp(LocalDate.now());
 				
@@ -48,9 +46,9 @@ public class TicketConversationService {
 	public List<TicketConversation> getConversation(String ticketId,String userId){
 		
 		Ticket ticket= ticketRepository.findById(ticketId).orElseThrow(()-> new TicketNotFoundException(ticketId+" is not found."));
-		if(ticket.getUserId().equals(userId)|| usersService.isAdmin(userId)) {
+		if(ticket.getUserId().equals(userId)) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("ticketId").is(ticketId));
+		query.addCriteria(Criteria.where("userId").is(userId));
 		List<TicketConversation> conversation = mongoTemplate.find(query,TicketConversation.class);
 		return conversation;
 		}
