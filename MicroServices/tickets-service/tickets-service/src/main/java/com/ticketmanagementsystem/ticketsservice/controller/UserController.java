@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ticketmanagementsystem.ticketsservice.exception.UserNotFoundException;
 import com.ticketmanagementsystem.ticketsservice.model.User;
 import com.ticketmanagementsystem.ticketsservice.service.UsersService;
 
@@ -31,7 +32,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/getuserdetails")
-	public User getUserDetails(@AuthenticationPrincipal OAuth2User principal) {
+	public User getUserDetails(@AuthenticationPrincipal OAuth2User principal) throws UserNotFoundException  {
 		
 		String userId= principal.getAttribute("email");
 		

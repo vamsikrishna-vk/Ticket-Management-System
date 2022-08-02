@@ -26,7 +26,7 @@ public class TicketConversationService {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
-	public void sendMessage(TicketConversation ticketConversation,String userId) {
+	public void sendMessage(TicketConversation ticketConversation,String userId) throws TicketNotFoundException, UnauthorizedAccessException {
 		
 		
 		Ticket ticket = ticketRepository.findById(ticketConversation.getTicketId()).orElseThrow(()-> new TicketNotFoundException(ticketConversation.getTicketId()+" Not Found."));
@@ -43,7 +43,7 @@ public class TicketConversationService {
 		}
 	}
 	
-	public List<TicketConversation> getConversation(String ticketId,String userId){
+	public List<TicketConversation> getConversation(String ticketId,String userId) throws TicketNotFoundException, UnauthorizedAccessException{
 		
 		Ticket ticket= ticketRepository.findById(ticketId).orElseThrow(()-> new TicketNotFoundException(ticketId+" is not found."));
 		if(ticket.getUserId().equals(userId)) {
