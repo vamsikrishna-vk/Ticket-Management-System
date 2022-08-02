@@ -130,6 +130,7 @@ function Home() {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false)
+  const [title, setTitle] = useState("")
 
   const handleCreateTicket = () => {
     setOpen(true)
@@ -137,7 +138,28 @@ function Home() {
 
   const handleClose = () => {
     setOpen(false);
-  };
+  }
+
+  const handleNewTicketSubjectChange = (event) => {
+      setTitle(event.target.value)
+  }
+
+  const handleCreateButton = () => {
+    const postObject = JSON.stringify({"title":title})
+    console.log(postObject)
+    axios.post(`${baseurl}createticket`, postObject, {headers: {
+      'Content-Type': 'application/json'
+    }}).then(
+      (response) => {
+        console.log(response)
+      }
+    ).catch(
+      (error) => {
+        console.log(error)
+      }
+    )
+    handleClose()
+  }
 
   //const [filterOptions, setFilterOptions] = React.useState(() => ['open', 'withdrawn', 'resolved']);
 
@@ -179,6 +201,7 @@ function Home() {
           <DialogContent>
             <TextField
               autoFocus
+              onChange={handleNewTicketSubjectChange}
               margin="dense"
               id="dialogbox-subject"
               label="Subject"
@@ -186,22 +209,11 @@ function Home() {
               fullWidth
               variant="standard"
             />
-            <TextField
-              autoFocus
-              margin="dense"
-              id="dialogbox-message"
-              label="Message"
-              type="text"
-              fullWidth
-              variant="filled"
-              maxRows={5}
-              multiline
-            />
           </DialogContent>
 
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Create</Button>
+            <Button onClick={handleCreateButton}>Create</Button>
           </DialogActions>
         </Dialog>
 
