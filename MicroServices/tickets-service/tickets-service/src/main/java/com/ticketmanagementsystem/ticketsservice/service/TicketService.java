@@ -51,7 +51,7 @@ public class TicketService {
 		throw new UnauthorizedAccessException(userId+" is not Authorized to get this resource");
 	}
 	
-	public void updateStatus(String ticketId,StatusEnum newStatus,String userId) {
+	public void updateStatus(String ticketId,StatusEnum newStatus,String userId) throws TicketNotFoundException, UnauthorizedAccessException {
 		
 		Ticket ticket= ticketRepository.findById(ticketId).orElseThrow(()-> new TicketNotFoundException(ticketId+" is not found."));
 		
