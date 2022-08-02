@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { Container } from "@mui/system";
+import DataTable from "./DataTable";
 
 class ticketObject {
   constructor(id, ticketId, userId, title, status, withdrawnTimeStamp) {
@@ -79,8 +80,8 @@ function Home() {
   console.log(document.cookie);
   const baseurl = "http://localhost:8080/"
   const isAdmin = false
-
-  const { tickets, setTickets } = useState([])
+  
+  const [tickets, setTickets] = useState([])
 
   const columns = [
     { field: 'ticketId', headerName: 'REQUESTER', flex: 1 },
@@ -92,7 +93,7 @@ function Home() {
       disableClickEventBubbling: true
     },
     { field: 'withdrawnTimeStamp', headerName: 'LAST REQUEST DATE', flex: 1 },
-  
+
   ];
 
   const row = []
@@ -113,10 +114,14 @@ function Home() {
     axios.get(`${baseurl}getalltickets`, {
     }).then(
       function (response) {
-        setTickets(response.data.map((ticket, index) =>
+        console.log(response.data)
+        /*setTickets(response.data.map((ticket, index) =>
           new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
-        ))
-        console.log(tickets)
+        ))*/
+        const rowObjects = response.data.map((ticket, index)=>           
+          new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+        ) 
+        setTickets(rowObjects)
         console.log("im not inside error")
         if (response.status === 401)
           window.open(`http://localhost:8080/oauth2/authorization/google?REDIRECT_URI=http://localhost:3000/home`)
@@ -132,7 +137,7 @@ function Home() {
       }
     )
     console.log('i fire once')
-  })
+  }, [])
 
 
   const navigate = useNavigate();
@@ -231,14 +236,13 @@ function Home() {
       </ToggleButtonGroup>
   <ColoredLine color="grey" />–– */}
 
-        <DataGrid className="gridStyle"
+<DataGrid className="gridStyle"
           onCellClick={handleTicketClick}
           rows={tickets}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
           components={{ Toolbar: GridToolbar }}
-        /*checkboxSelection*/
         />
       </div>
     </Container>
