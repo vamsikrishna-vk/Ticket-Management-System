@@ -8,14 +8,17 @@ import tickets from '../data/ticketsData.json'
 import { useState, useEffect, useRef } from "react";
 import { messageObject } from "../data/messageObject";
 import { Divider, FormControl, Grid, List, ListItem, ListItemText, MenuItem, Paper, Select } from "@mui/material";
+import { useParams } from 'react-router-dom';
 
-const ticket = tickets[0]
+
 
 function Conversation() {
 
+    const {id, name, status, subject, date} = useParams()
+    const ticket = tickets.find(item => item.id === id)
     const [newMessages, setNewMessages] = useState(ticket.messages);
     const [message, setMessage] = useState("");
-    const [status, setStatus] = useState(ticket.status);
+    const [currStatus, setCurrStatus] = useState(status);
     const endRef = useRef(null)
 
     const scrollToBottom = () => {
@@ -25,7 +28,7 @@ function Conversation() {
     useEffect(scrollToBottom, [newMessages])
 
     const handleStatus = (event) => {
-        setStatus(event.target.value)
+        setCurrStatus(event.target.value)
     }
 
     const handleMessageChange = (event) => {
@@ -36,7 +39,7 @@ function Conversation() {
         event.preventDefault()
         if (message) {
             console.log(message)
-            setNewMessages([...newMessages, new messageObject(ticket.name, message)])
+            setNewMessages([...newMessages, new messageObject(name, message)])
             setMessage('')
         }
 
@@ -58,9 +61,9 @@ function Conversation() {
                     <Grid container spacing={2}>
                         <Grid item xs={8}>
                             <Box>
-                                <div className='subject'>Subject: {ticket.subject}</div>
-                                <div className='createdOn'>Created On: {ticket.date}</div>
-                                <div className='status'>Status: {ticket.status}</div>
+                                <div className='subject'>Subject: {subject}</div>
+                                <div className='createdOn'>Created On: {date}</div>
+                                <div className='status'>Status: {status}</div>
                             </Box>
                         </Grid>
                         <Grid item xs={4}>
@@ -69,11 +72,11 @@ function Conversation() {
                                 <Select
                                     style={{
                                         color: 'white',
-                                        backgroundColor: (status === 'Withdrawn') ? '#F76E11' : (status === 'Open') ? '#346EEB' : '#2B8F32'
+                                        backgroundColor: (currStatus === 'Withdrawn') ? '#F76E11' : (currStatus === 'Open') ? '#346EEB' : '#2B8F32'
                                     }}
                                     labelId="simple-select-label"
                                     id="simple-select"
-                                    value={status}
+                                    value={currStatus}
                                     label="Status"
                                     onChange={handleStatus}
                                 >

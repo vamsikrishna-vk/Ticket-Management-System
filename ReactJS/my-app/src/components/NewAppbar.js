@@ -10,12 +10,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
+import { useNavigate } from 'react-router-dom';
 
-const settings = [ 'Logout'];
+const settings = ['Logout'];
 
 
 function ElevationScroll(props) {
-  const {children} = props;
+  const { children } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
   // will default to window.
   // This is only being set here because the demo is in an iframe.
@@ -31,7 +32,8 @@ function ElevationScroll(props) {
 
 export default function ElevateAppBar(props) {
 
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate()
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -42,28 +44,33 @@ export default function ElevateAppBar(props) {
     setAnchorElUser(null);
   };
 
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <ElevationScroll {...props}>
-          <AppBar>
-            <Toolbar>
+  const handleClickHome = () => {
+    navigate('../home')
+  }
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <ElevationScroll {...props}>
+        <AppBar>
+          <Toolbar>
 
             <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <HomeIcon />
-          </IconButton>  
+              onClick={handleClickHome}
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <HomeIcon />
+            </IconButton>
 
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Ticket Management System
-          </Typography>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Ticket Management System
+            </Typography>
 
-          <Tooltip title="Open settings">
+            <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="/broken-image.jpg" />
               </IconButton>
@@ -92,10 +99,10 @@ export default function ElevateAppBar(props) {
               ))}
             </Menu>
 
-            </Toolbar>
-          </AppBar>
-        </ElevationScroll>
-        <Toolbar />
-      </React.Fragment>
-    );
-  }
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
+      <Toolbar />
+    </React.Fragment>
+  );
+}
