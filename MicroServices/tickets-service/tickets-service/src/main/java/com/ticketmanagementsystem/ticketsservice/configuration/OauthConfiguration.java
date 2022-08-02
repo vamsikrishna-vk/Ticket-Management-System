@@ -41,7 +41,7 @@ public class OauthConfiguration extends WebSecurityConfigurerAdapter {
 http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	http
 	.authorizeRequests(a -> a
-        .antMatchers("/", "/error", "/webjars/**","/spring-security-rest/**").permitAll()
+        .antMatchers("/", "/error", "/webjars/**").permitAll()
         .anyRequest().authenticated()
     )
 	.logout(l -> l
@@ -50,7 +50,8 @@ http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     .exceptionHandling(e -> e
         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
     )
-    .oauth2Login(); 
+    
+    .oauth2Login().defaultSuccessUrl("http://localhost:3000/home", false); 
 	
 	}
 	

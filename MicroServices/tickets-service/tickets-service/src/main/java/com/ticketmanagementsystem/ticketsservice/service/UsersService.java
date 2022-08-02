@@ -16,7 +16,7 @@ public class UsersService {
 	
 	
 	
-	public User getUserDetails(String userId) {
+	public User getUserDetails(String userId) throws UserNotFoundException {
 			
 		User user= usersRepository.findById(userId).orElseThrow(()->new UserNotFoundException(userId+" doesn't exist call /setUserDetails"));
 		
