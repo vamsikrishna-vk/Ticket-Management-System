@@ -2,6 +2,9 @@ package com.ticketmanagementsystem.ticketsservice.model;
 
 import java.time.LocalDate;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("ticketConversation")
 public class TicketConversation {
 
 	
