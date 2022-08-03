@@ -243,7 +243,7 @@ const Home = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             All Tickets
           </Typography>
-          {role==='user' ? <Button variant="contained" onClick={handleCreateTicket}  >Create Ticket</Button> : null}
+          {role ==='admin' ? null : <Button variant="contained" onClick={handleCreateTicket}  >Create Ticket</Button> }
         </div>
         <ColoredLine color="grey" />
 
