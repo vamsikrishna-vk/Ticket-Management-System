@@ -53,7 +53,6 @@ export default function ElevateAppBar(props) {
     console.log('removing cookie...')
     handleCloseUserMenu()
     navigate('./login')
-    process.env.REACT_APP_LOGGEDIN = false
   }
 
   return (
@@ -63,7 +62,7 @@ export default function ElevateAppBar(props) {
         <AppBar>
           <Toolbar>
 
-            {process.env.REACTAPPLOGGEDIN?<IconButton
+            {(false) ? <IconButton
               onClick={handleClickHome}
               size="large"
               edge="start"

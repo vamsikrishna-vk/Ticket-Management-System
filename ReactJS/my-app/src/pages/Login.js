@@ -10,7 +10,6 @@ function Login() {
     const handleLoginClick = () => {
         window.open(`http://localhost:8080/oauth2/authorization/google`, "_self")
         console.log(process.env.isLoggedIn)
-        process.env.REACT_APP_LOGGEDIN = true
     }
 
     return (
