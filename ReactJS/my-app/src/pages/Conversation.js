@@ -7,7 +7,7 @@ import { Box } from '@mui/system';
 import { useState, useEffect, useRef } from "react";
 import { messageObject } from "../data/messageObject";
 import { Divider, FormControl, Grid, List, ListItem, ListItemText, MenuItem, Paper, Select } from "@mui/material";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
@@ -19,21 +19,26 @@ axios.defaults.headers.post['withCredentials'] = 'true';
 
 function Conversation() {
 
-    const {id, name, status, subject, date, role} = useParams()
+    const { id, name, status, subject, date, role } = useParams()
     const [newMessages, setNewMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [currStatus, setCurrStatus] = useState(status.toLowerCase());
     const endRef = useRef(null)
     const [cookies] = useCookies(['XSRF-TOKEN']);
     const baseurl = "http://localhost:8080/"
+    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get(`${baseurl}getconversation/${id}`).then((response) => {
             console.log(response)
-            const messageHistory = response.data.map((data)=>
+            const messageHistory = response.data.map((data) =>
                 new messageObject(data.fromUserId, data.messageContent)
             )
             setNewMessages(messageHistory)
+        }).catch((err) => {
+            console.log("inside error")
+            navigate('../home')
+            console.log(err)
         })
     }, [id])
 
@@ -58,18 +63,17 @@ function Conversation() {
         event.preventDefault()
         if (message) {
             console.log(message)
-            const data = JSON.stringify({
-                "ticketId": id,
-                "messageContent": message
-            })
+            const data = JSON.stringify({ "ticketId": id, "messageContent": message })
             console.log(data)
-            axios.post(`${baseurl}sendmessage`,{data}, {
+            axios.post(`${baseurl}sendmessage`, data, {
                 headers: {
-                  'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 }
-              }).then(()=>{
+            }).then(() => {
                 setNewMessages([...newMessages, new messageObject(name, message)])
-            }).catch((error)=>{
+            }).catch((error) => {
+                console.log("inside error")
+                navigate('../home')
                 console.log(error)
             })
             setMessage('')
@@ -77,7 +81,7 @@ function Conversation() {
 
     }
 
-    
+
 
     const listMessages = newMessages.map((messageObject, index) =>
         <ListItem key={index} id="list-item">
@@ -101,8 +105,8 @@ function Conversation() {
                             </Box>
                         </Grid>
                         <Grid item xs={4}>
-                            {role === 'user' ?<FormControl fullWidth>
-                                <label style={{marginLeft: 10}}>status</label>
+                            {role === 'user' ? <FormControl fullWidth>
+                                <label style={{ marginLeft: 10 }}>status</label>
                                 <Select
                                     style={{
                                         color: 'white',
@@ -118,7 +122,7 @@ function Conversation() {
                                     <MenuItem value={"resolved"}>Resolved</MenuItem>
                                     <MenuItem value={"withdrawn"}>Withdrawn</MenuItem>
                                 </Select>
-                            </FormControl>: null}
+                            </FormControl> : null}
                         </Grid>
                     </Grid>
                     <Divider />

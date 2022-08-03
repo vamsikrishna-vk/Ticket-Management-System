@@ -106,7 +106,7 @@ const Home = () => {
       setUser(response.data)
       setRole(response.data.role)
     }).catch((err) => {
-      if(err.status === 404)
+      if(err.status !== 200)
       {axios.post(`${baseurl}setuserdetails`, {}).then((response) => {
         console.log(response)
         setUser(response.data)
@@ -126,12 +126,12 @@ const Home = () => {
               new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
             ))*/
             const rowObjects = response.data.map((ticket, index) =>
-              new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+              new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.openedTimeStamp)
             )
             setTickets(rowObjects)
             console.log("im not inside error")
             if (response.status === 401)
-              window.open(`http://localhost:8080/oauth2/authorization/google`)
+              window.open(`http://localhost:8080/oauth2/authorization/google`, "_self")
           }
         ).catch(
           function (error) {
@@ -139,7 +139,7 @@ const Home = () => {
             console.log("im inside error")
             if (error.response.status === 401) {
               console.log(error.response.status)
-              console.log(window.open(`http://localhost:8080/oauth2/authorization/google`))
+              console.log(window.open(`http://localhost:8080/oauth2/authorization/google`, "_self"))
             }
           }
         )
@@ -151,12 +151,12 @@ const Home = () => {
               new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
             ))*/
             const rowObjects = response.data.map((ticket, index) =>
-              new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+              new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.openedTimeStamp)
             )
             setTickets(rowObjects)
             console.log("im not inside error")
             if (response.status === 401)
-              window.open(`http://localhost:8080/oauth2/authorization/google`)
+              window.open(`http://localhost:8080/oauth2/authorization/google`,"_self")
           }
         ).catch(
           function (error) {
@@ -164,7 +164,7 @@ const Home = () => {
             console.log("im inside error")
             if (error.response.status === 401) {
               console.log(error.response.status)
-              console.log(window.open(`http://localhost:8080/oauth2/authorization/google`))
+              console.log(window.open(`http://localhost:8080/oauth2/authorization/google`,"_self"))
             }
           }
         )
