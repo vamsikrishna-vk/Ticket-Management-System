@@ -36,7 +36,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="home" element={<Home />} />
-        <Route path="conversation/:id/:name/:status/:subject/:date" element={<Conversation />} />
+        <Route path="conversation/:id/:name/:status/:subject/:date/:role" element={<Conversation />} />
       </Route>
     </Routes>
   );

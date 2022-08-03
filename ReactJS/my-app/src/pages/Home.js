@@ -57,31 +57,35 @@ const renderRequester = (params) => {
     </div>
   )
 }
+export function handleUserLogout(props) {
+  console.log("user Logged out");
+} 
 //const ticketObjArray = rows
 
-const ColoredLine = ({ color }) => (
-  <hr
-    style={{
-      color,
-      backgroundColor: color,
-      height: 0.5
-    }}
-  />
-);
+function ColoredLine({ color }) {
+  return (
+    <hr
+      style={{
+        color,
+        backgroundColor: color,
+        height: 0.5
+      }} />
+  );
+}
 
 axios.defaults.withCredentials = 'true';
 axios.defaults.crossDomain = 'true';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['withCredentials'] = 'true';
 
-function Home() {
+const Home = () => {
 
   const [cookies] = useCookies(['XSRF-TOKEN']);
   console.log(document.cookie);
   const baseurl = "http://localhost:8080/"
-  const isAdmin = false
-  
+  const [role, setRole] = useState("")
   const [tickets, setTickets] = useState([])
+  const [user, setUser] = useState()
 
   const columns = [
     { field: 'userId', headerName: 'REQUESTER', flex: 1 },
@@ -96,35 +100,77 @@ function Home() {
 
   ];
 
+  useEffect(() => {
+    axios.get(`${baseurl}getuserdetails`).then((response) => {
+      console.log(response)
+      setUser(response.data)
+      setRole(response.data.role)
+    }).catch((err) => {
+      if(err.status === 404)
+      {axios.post(`${baseurl}setuserdetails`, {}).then((response) => {
+        console.log(response)
+        setUser(response.data)
+      }).catch((err) => console.log(err))
+      console.log(err)}
+    })
+  }, [])
 
 
   useEffect(() => {
-    axios.get(`${baseurl}getalltickets`, {
-    }).then(
-      function (response) {
-        /*setTickets(response.data.map((ticket, index) =>
-          new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
-        ))*/
-        const rowObjects = response.data.map((ticket, index)=>           
-          new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
-        ) 
-        setTickets(rowObjects)
-        console.log("im not inside error")
-        if (response.status === 401)
-          window.open(`http://localhost:8080/oauth2/authorization/google`)
+    if(role === 'admin')
+      {
+        axios.get(`${baseurl}getalltickets`, {
+        }).then(
+          function (response) {
+            /*setTickets(response.data.map((ticket, index) =>
+              new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+            ))*/
+            const rowObjects = response.data.map((ticket, index) =>
+              new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+            )
+            setTickets(rowObjects)
+            console.log("im not inside error")
+            if (response.status === 401)
+              window.open(`http://localhost:8080/oauth2/authorization/google`)
+          }
+        ).catch(
+          function (error) {
+            console.log(error)
+            console.log("im inside error")
+            if (error.response.status === 401) {
+              console.log(error.response.status)
+              console.log(window.open(`http://localhost:8080/oauth2/authorization/google`))
+            }
+          }
+        )
+      }else {
+        axios.get(`${baseurl}getUserTickets`, {
+        }).then(
+          function (response) {
+            /*setTickets(response.data.map((ticket, index) =>
+              new ticketObject(index, ticket.ticketId, ticket.userID, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+            ))*/
+            const rowObjects = response.data.map((ticket, index) =>
+              new ticketObject(index, ticket.ticketId, ticket.userId, ticket.title, ticket.status, ticket.withdrawnTimeStamp)
+            )
+            setTickets(rowObjects)
+            console.log("im not inside error")
+            if (response.status === 401)
+              window.open(`http://localhost:8080/oauth2/authorization/google`)
+          }
+        ).catch(
+          function (error) {
+            console.log(error)
+            console.log("im inside error")
+            if (error.response.status === 401) {
+              console.log(error.response.status)
+              console.log(window.open(`http://localhost:8080/oauth2/authorization/google`))
+            }
+          }
+        )
       }
-    ).catch(
-      function (error) {
-        console.log(error)
-        console.log("im inside error")
-        if (error.response.status === 401) {
-          console.log(error.response.status)
-          console.log(window.open(`http://localhost:8080/oauth2/authorization/google`))
-        }
-      }
-    )
     console.log('i fire once')
-  }, [])
+  }, [role])
 
 
   const navigate = useNavigate();
@@ -141,15 +187,17 @@ function Home() {
   }
 
   const handleNewTicketSubjectChange = (event) => {
-      setTitle(event.target.value)
+    setTitle(event.target.value)
   }
 
   const handleCreateButton = () => {
-    const postObject = JSON.stringify({"title":title})
+    const postObject = JSON.stringify({ "title": title })
     console.log(postObject)
-    axios.post(`${baseurl}createticket`, postObject, {headers: {
-      'Content-Type': 'application/json'
-    }}).then(
+    axios.post(`${baseurl}createticket`, postObject, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(
       (response) => {
         console.log(response)
       }
@@ -180,8 +228,10 @@ function Home() {
 
   const handleTicketClick = (props) => {
     console.log(props)
-    navigate(`../conversation/${props.row.ticketId}/${props.row.userId}/${props.row.status}/${props.row.title}/${props.row.withdrawnTimeStamp}`)
+    navigate(`../conversation/${props.row.ticketId}/${props.row.userId}/${props.row.status}/${props.row.title}/${props.row.withdrawnTimeStamp}/${role}`)
   }
+
+  
 
 
   return (
@@ -192,7 +242,7 @@ function Home() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             All Tickets
           </Typography>
-          {!isAdmin ? <Button variant="contained" onClick={handleCreateTicket}  >Create Ticket</Button> : null}
+          {role==='user' ? <Button variant="contained" onClick={handleCreateTicket}  >Create Ticket</Button> : null}
         </div>
         <ColoredLine color="grey" />
 
@@ -235,7 +285,7 @@ function Home() {
       </ToggleButtonGroup>
   <ColoredLine color="grey" />–– */}
 
-<DataGrid className="gridStyle"
+        <DataGrid className="gridStyle"
           onCellClick={handleTicketClick}
           rows={tickets}
           columns={columns}

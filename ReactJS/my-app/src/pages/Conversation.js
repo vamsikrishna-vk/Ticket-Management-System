@@ -19,7 +19,7 @@ axios.defaults.headers.post['withCredentials'] = 'true';
 
 function Conversation() {
 
-    const {id, name, status, subject, date} = useParams()
+    const {id, name, status, subject, date, role} = useParams()
     const [newMessages, setNewMessages] = useState([]);
     const [message, setMessage] = useState("");
     const [currStatus, setCurrStatus] = useState(status.toLowerCase());
@@ -45,6 +45,9 @@ function Conversation() {
 
     const handleStatus = (event) => {
         setCurrStatus(event.target.value)
+        axios.put(`${baseurl}updatestatus/${id}/${event.target.value.toUpperCase()}`).then((response) => {
+            console.log(response)
+        }).catch((err) => console.log(err))
     }
 
     const handleMessageChange = (event) => {
@@ -56,13 +59,15 @@ function Conversation() {
         if (message) {
             console.log(message)
             const data = JSON.stringify({
-                "messageContent": message,
-                "ticketId":id
+                "ticketId": id,
+                "messageContent": message
             })
             console.log(data)
-            axios.post(`${baseurl}sendmessage`, data, {headers: {
-                'Content-Type': 'application/json'
-            }}).then(()=>{
+            axios.post(`${baseurl}sendmessage`,{data}, {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              }).then(()=>{
                 setNewMessages([...newMessages, new messageObject(name, message)])
             }).catch((error)=>{
                 console.log(error)
@@ -96,7 +101,7 @@ function Conversation() {
                             </Box>
                         </Grid>
                         <Grid item xs={4}>
-                            <FormControl fullWidth>
+                            {role === 'user' ?<FormControl fullWidth>
                                 <label style={{marginLeft: 10}}>status</label>
                                 <Select
                                     style={{
@@ -113,7 +118,7 @@ function Conversation() {
                                     <MenuItem value={"resolved"}>Resolved</MenuItem>
                                     <MenuItem value={"withdrawn"}>Withdrawn</MenuItem>
                                 </Select>
-                            </FormControl>
+                            </FormControl>: null}
                         </Grid>
                     </Grid>
                     <Divider />

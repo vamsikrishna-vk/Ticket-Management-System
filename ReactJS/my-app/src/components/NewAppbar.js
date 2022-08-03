@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
-
+import {handleUserLogout}from '../pages/Home'
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -47,6 +47,7 @@ export default function ElevateAppBar(props) {
   }
 
   const handleLogout = () => {
+    handleUserLogout()
     handleCloseUserMenu()
   }
 
