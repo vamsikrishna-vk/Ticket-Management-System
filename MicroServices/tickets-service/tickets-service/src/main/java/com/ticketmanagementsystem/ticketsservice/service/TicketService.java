@@ -22,7 +22,8 @@ public class TicketService {
 	TicketRepository ticketRepository;
 	@Autowired
 	SequenceGeneratorService sequenceGeneratorService;
-	
+	@Autowired
+	UsersService usersService;
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
@@ -44,7 +45,7 @@ public class TicketService {
 	
 	public List<Ticket> getAllTickets(String userId) throws UnauthorizedAccessException{
 		
-		if(userId.equals("vamsikrishna6037@gmail.com")) {
+		if(usersService.isAdmin(userId)) { 
 			return ticketRepository.findAll();
 		}
 		
