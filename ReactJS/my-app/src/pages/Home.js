@@ -58,7 +58,7 @@ const renderRequester = (params) => {
   )
 }
 export function handleUserLogout(props) {
-  console.log("user Logged out");
+  console.log("user Logged out")
 } 
 //const ticketObjArray = rows
 
@@ -80,7 +80,7 @@ axios.defaults.headers.post['withCredentials'] = 'true';
 
 const Home = () => {
 
-  const [cookies] = useCookies(['XSRF-TOKEN']);
+  const [cookies, setCookie, removeCookie] = useCookies(['XSRF-TOKEN']);
   console.log(document.cookie);
   const baseurl = "http://localhost:8080/"
   const [role, setRole] = useState("")
@@ -228,7 +228,7 @@ const Home = () => {
 
   const handleTicketClick = (props) => {
     console.log(props)
-    navigate(`../conversation/${props.row.ticketId}/${props.row.userId}/${props.row.status}/${props.row.title}/${props.row.withdrawnTimeStamp}/${role}`)
+    navigate(`../conversation/${props.row.ticketId}/${user.userId}/${props.row.status}/${props.row.title}/${props.row.withdrawnTimeStamp}/${role}`)
   }
 
   

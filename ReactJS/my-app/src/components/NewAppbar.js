@@ -12,6 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from 'react-router-dom';
 import {handleUserLogout}from '../pages/Home'
+import { useCookies } from 'react-cookie';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -30,6 +31,7 @@ function ElevationScroll(props) {
 
 export default function ElevateAppBar(props) {
 
+  const [cookie, removeCookie] = useCookies(['XSRF-TOKEN']);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate()
 
@@ -47,8 +49,11 @@ export default function ElevateAppBar(props) {
   }
 
   const handleLogout = () => {
-    handleUserLogout()
+    removeCookie('XSRF-TOKEN', { path: '/' });
+    console.log('removing cookie...')
     handleCloseUserMenu()
+    navigate('./login')
+    process.env.REACT_APP_LOGGEDIN = false
   }
 
   return (
@@ -58,7 +63,7 @@ export default function ElevateAppBar(props) {
         <AppBar>
           <Toolbar>
 
-            <IconButton
+            {process.env.REACTAPPLOGGEDIN?<IconButton
               onClick={handleClickHome}
               size="large"
               edge="start"
@@ -67,7 +72,7 @@ export default function ElevateAppBar(props) {
               sx={{ mr: 2 }}
             >
               <HomeIcon />
-            </IconButton>
+            </IconButton>: null}
 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Ticket Management System

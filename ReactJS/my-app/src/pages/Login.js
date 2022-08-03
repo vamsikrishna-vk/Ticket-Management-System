@@ -1,41 +1,26 @@
-import React, { useState } from 'react';
-import { Button, TextField, Typography } from "@mui/material";
-import "./Login.css";
+import React from 'react';
+import { Button, Container, Typography } from "@mui/material";
+import GoogleIcon from '@mui/icons-material/Google';
+import "./Login.css"
+import ElevateAppBar from '../components/NewAppbar';
+
 
 function Login() {
 
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
+    const handleLoginClick = () => {
+        window.open(`http://localhost:8080/oauth2/authorization/google`, "_self")
+        console.log(process.env.isLoggedIn)
+        process.env.REACT_APP_LOGGEDIN = true
+    }
 
-  return (
-    <div className="login">
-        <form>
-            <div class="submain">
+    return (
+        <Container id="login">
+            <div className="submain">
                 <Typography variant='h6' fontWeight={600} className="heading">LOGIN</Typography>
-                <TextField 
-                    margin='normal' 
-                    type={"text"} 
-                    variant='outlined' 
-                    fullWidth 
-                    placeholder='Email ID'
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    />
-                <TextField 
-                    margin='normal' 
-                    type={"password"} 
-                    variant='outlined' 
-                    fullWidth  
-                    placeholder='Password' 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    />
-                <Button variant='contained' color='primary'>Login</Button>
-                <p>NEW USER? CLICK HERE TO REGISTER</p>
-            </div>   
-        </form>
-    </div>
-  )
+                <Button variant='contained' color='primary' onClick={handleLoginClick}><GoogleIcon sx={{ mr: 2 }} /> Login With Google</Button>
+            </div>
+        </Container>
+    )
 }
 
 export default Login;
